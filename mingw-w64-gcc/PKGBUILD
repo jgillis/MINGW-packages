@@ -13,7 +13,7 @@ pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}"
          "${MINGW_PACKAGE_PREFIX}-${_realname}-ada"
          "${MINGW_PACKAGE_PREFIX}-${_realname}-objc")
 #_snapshot=20181214
-pkgver=8.3.0
+pkgver=8.4.0
 #_majorver=${pkgver:0:1}
 #_sourcedir=${_realname}-${_majorver}-${_snapshot}
 _sourcedir=${_realname}-${pkgver}
@@ -55,7 +55,8 @@ source=("https://ftp.gnu.org/gnu/gcc/${_realname}-${pkgver%%+*}/${_realname}-${p
         0014-clone_function_name_1-Retain-any-stdcall-suffix.patch
         0019-gcc-8-branch-Backport-patches-for-std-filesystem-from-master.patch
         0130-libstdc++-in-out.patch
-        0140-gcc-8.2.0-diagnostic-color.patch)
+        0140-gcc-8.2.0-diagnostic-color.patch
+        vmov-alignment.patch)
 sha256sums=('64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c'
             'SKIP'
             'dea2bbad4967280910559c6a11b865aeec19cab34647fb5894cb498b24b14462'
@@ -72,7 +73,8 @@ sha256sums=('64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c'
             '60a58ed41389691a68ef4b7d47a0328df4d28d26e6c680a6b06b31191481ca65'
             'bf83cbc79de4c86f02664c8a624e26b12f570e3c31116fc7c46ecf655696f9a6'
             'ba2f77db605577d08e4079f08a7a9556c975b5416be8610c5be31e915637feb7'
-            'e467f0ac68b349de826c79b00a45c5ad9e7c5a55d06b9b9fa7afd94c597f6376')
+            'e467f0ac68b349de826c79b00a45c5ad9e7c5a55d06b9b9fa7afd94c597f6376'
+            '9a3c17654cd634d41f6b267800b04e5667a01288fe82f713ffd6b42b18044185')
 
 _threads="posix"
 
@@ -125,6 +127,14 @@ prepare() {
   # Вячеслав Петрищев <vyachemail@gmail.com>
   apply_patch_with_msg \
     0140-gcc-8.2.0-diagnostic-color.patch
+
+  # workaround for AVX misalignment issue for pass-by-value arguments
+  #   cf. https://github.com/msys2/MSYS2-packages/issues/1209
+  #   cf. https://sourceforge.net/p/mingw-w64/discussion/723797/thread/bc936130/ 
+  #  Patch file is an copy of Debian patch https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939559
+  #  Issue is longstanding upstream at https://gcc.gnu.org/bugzilla/show_bug.cgi?id=54412
+  apply_patch_with_msg \
+    vmov-alignment.patch
 
   # do not expect ${prefix}/mingw symlink - this should be superceded by
   # 0005-Windows-Don-t-ignore-native-system-header-dir.patch .. but isn't!
