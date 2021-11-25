@@ -32,31 +32,30 @@ message 'Building packages' "${packages[@]}"
 execute 'Approving recipe quality' check_recipe_quality
 
 message 'Building packages'
-for package in "${packages[@]}"; do
-    echo "::group::[build] ${package}"
-    execute 'Fetch keys' "$DIR/fetch-validpgpkeys.sh"
-    execute 'Building binary' makepkg-mingw --noconfirm --noprogressbar --nocheck --syncdeps --rmdeps --cleanbuild
-    MINGW_ARCH=mingw64 execute 'Building source' makepkg-mingw --noconfirm --noprogressbar --allsource
-    echo "::endgroup::"
+package=mingw-w64-gcc
+echo "::group::[build] ${package}"
+execute 'Fetch keys' "$DIR/fetch-validpgpkeys.sh"
+execute 'Building binary' makepkg-mingw --noconfirm --noprogressbar --nocheck --syncdeps --rmdeps --cleanbuild
+MINGW_ARCH=mingw64 execute 'Building source' makepkg-mingw --noconfirm --noprogressbar --allsource
+echo "::endgroup::"
 
-    echo "::group::[install] ${package}"
-    execute 'Installing' install_packages
-    echo "::endgroup::"
+echo "::group::[install] ${package}"
+execute 'Installing' install_packages
+echo "::endgroup::"
 
-    echo "::group::[diff] ${package}"
-    cd "$package"
-    for pkg in *.pkg.tar.*; do
-        message "File listing diff for ${pkg}"
-        pkgname="$(echo "$pkg" | rev | cut -d- -f4- | rev)"
-        diff -Nur <(pacman -Fl "$pkgname" | sed -e 's|^[^ ]* |/|' | sort) <(pacman -Ql "$pkgname" | sed -e 's|^[^/]*||' | sort) || true
-    done
-    cd - > /dev/null
-    echo "::endgroup::"
-
-    mv "${package}"/*.pkg.tar.* artifacts
-    mv "${package}"/*.src.tar.* artifacts
-    unset package
+echo "::group::[diff] ${package}"
+cd "$package"
+for pkg in *.pkg.tar.*; do
+	message "File listing diff for ${pkg}"
+	pkgname="$(echo "$pkg" | rev | cut -d- -f4- | rev)"
+	diff -Nur <(pacman -Fl "$pkgname" | sed -e 's|^[^ ]* |/|' | sort) <(pacman -Ql "$pkgname" | sed -e 's|^[^/]*||' | sort) || true
 done
+cd - > /dev/null
+echo "::endgroup::"
+
+mv "${package}"/*.pkg.tar.* artifacts
+mv "${package}"/*.src.tar.* artifacts
+unset package
 success 'All packages built successfully'
 
 cd artifacts
