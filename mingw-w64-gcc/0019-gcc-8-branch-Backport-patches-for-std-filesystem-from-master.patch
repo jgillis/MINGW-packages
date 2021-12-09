@@ -298,7 +298,7 @@ index fb85d489fd8..e3938d06d59 100644
      template<typename _Tp1, typename _Tp2 = void>
        using _Path = typename
 -	std::enable_if<__and_<__not_<is_same<remove_cv_t<_Tp1>, path>>,
--			      __not_<is_void<_Tp1>>,
+-			      __not_<is_void<remove_pointer_t<_Tp1>>>,
 +	std::enable_if<__and_<__not_<is_same<_Tp1, path>>,
  			      __constructible_from<_Tp1, _Tp2>>::value,
  		       path>::type;
