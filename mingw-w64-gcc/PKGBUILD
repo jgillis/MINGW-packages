@@ -5,9 +5,9 @@
 # Contributor: wirx6 <wirx654@gmail.com>
 # Contributor: Kirill Müller <krlmlr@mailbox.org>
 
-_enable_ada=yes
-_enable_objc=yes
-_enable_jit=yes
+_enable_ada=no
+_enable_objc=no
+_enable_jit=no
 if [[ "$MSYSTEM" == "UCRT64" ]]; then
 # FIXME: how do we bootstrap that?
 _enable_ada=no
