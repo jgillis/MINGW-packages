@@ -1,0 +1,9 @@
+--- a/libgomp/configure
++++ b/libgomp/configure
+@@ -4345,7 +4345,7 @@ save_CFLAGS="$CFLAGS"
+ 
+ # Add -Wall -Werror if we are using GCC.
+ if test "x$GCC" = "xyes"; then
+-  XCFLAGS="$XCFLAGS -Wall -Werror"
++  XCFLAGS="$XCFLAGS -Wall"
+ fi
