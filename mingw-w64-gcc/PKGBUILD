@@ -228,7 +228,7 @@ build() {
     --disable-rpath \
     --disable-win32-registry \
     --disable-nls \
-    --disable-werror \
+    --disable-Werror \
     --disable-symvers \
     --with-libiconv \
     --with-system-zlib \
