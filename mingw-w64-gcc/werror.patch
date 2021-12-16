@@ -7,3 +7,15 @@
 -  XCFLAGS="$XCFLAGS -Wall -Werror"
 +  XCFLAGS="$XCFLAGS -Wall"
  fi
+--- a/libgomp/configure.ac
++++ b/libgomp/configure.ac
+@@ -115,7 +115,7 @@ save_CFLAGS="$CFLAGS"
+ 
+ # Add -Wall -Werror if we are using GCC.
+ if test "x$GCC" = "xyes"; then
+-  XCFLAGS="$XCFLAGS -Wall -Werror"
++  XCFLAGS="$XCFLAGS -Wall"
+ fi
+ 
+ # Find other programs we need.
+
