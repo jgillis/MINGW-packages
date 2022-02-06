@@ -65,6 +65,7 @@ source=("https://ftp.gnu.org/gnu/gcc/${_realname}-${pkgver%%+*}/${_realname}-${p
         0011-Enable-shared-gnat-implib.patch
         0014-clone_function_name_1-Retain-any-stdcall-suffix.patch
         0019-gcc-8-branch-Backport-patches-for-std-filesystem-from-master.patch
+		0020-libgomp-Don-t-hard-code-MS-printf-attributes.patch
         0130-libstdc++-in-out.patch
         0140-gcc-8.2.0-diagnostic-color.patch
         vmov-alignment.patch
@@ -84,6 +85,7 @@ sha256sums=('e30a6e52d10e1f27ed55104ad233c30bd1e99cfb5ff98ab022dc941edd1b2dd4'
             '8faff8e503a617f283270f411399a8bcacda3ab62b4072dedf117e108af4844a'
             '60a58ed41389691a68ef4b7d47a0328df4d28d26e6c680a6b06b31191481ca65'
             '504acdae631e93d07bf0e5b1fbbb97aacb5b8acdb61ac66aaab784dd2f6ccffe'
+			'276ecc392c777d4b17d771a987e80dca50ff25d8f65671d5de139be73997064b'
             'ba2f77db605577d08e4079f08a7a9556c975b5416be8610c5be31e915637feb7'
             'e467f0ac68b349de826c79b00a45c5ad9e7c5a55d06b9b9fa7afd94c597f6376'
             '9a3c17654cd634d41f6b267800b04e5667a01288fe82f713ffd6b42b18044185'
@@ -134,8 +136,8 @@ prepare() {
     0010-Fix-using-large-PCH.patch \
     0011-Enable-shared-gnat-implib.patch \
     0014-clone_function_name_1-Retain-any-stdcall-suffix.patch \
-    0019-gcc-8-branch-Backport-patches-for-std-filesystem-from-master.patch
-    
+    0019-gcc-8-branch-Backport-patches-for-std-filesystem-from-master.patch \
+	0020-libgomp-Don-t-hard-code-MS-printf-attributes.patch
 
   apply_patch_with_msg \
     0130-libstdc++-in-out.patch
